@@ -38,3 +38,14 @@ In this scenario, packages are divided into two groups:
 - `remote` - used on remote PC computer
 
 Depending on platform you should use `elkapod_deploy_local.repos` for `local` and `elkapod_deploy_remote.repos` for `remote` and follow points from previous chapter.
+
+> [!IMPORTANT] 
+>
+> If you want to use ssh-based repository cloning then use the `ssh_repos_url.sh` file to change URLs in `.repos` files so that all of them start with `git@github.com:HexapodBionik` prefix, suitable for ssh clone.
+> 
+> First of all you should add permissions to execute the file using `chmod u+x ssh_repos_url.sh`. 
+> 
+> Then run the command like this:
+> 
+> ./ssh_repos_url.sh elkapod_all.repos | vcs import src/
+>
