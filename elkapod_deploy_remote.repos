@@ -1,0 +1,10 @@
+repositories:
+  elkapod_teleop:
+    type: git
+    url: https://github.com/HexapodBionik/elkapod_teleop.git
+    version: main
+
+  elkapod_nav2:
+    type: git
+    url: https://github.com/HexapodBionik/elkapod_nav2.git
+    version: main
