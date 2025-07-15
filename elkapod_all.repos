@@ -6,7 +6,7 @@ repositories:
 
   elkapod_msgs:
     type: git
-    url: https://github.com/HexapodBionik/elkapod_msgs
+    url: https://github.com/HexapodBionik/elkapod_msgs.git
     version: main
 
   elkapod_simulation:
