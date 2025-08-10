@@ -1,0 +1,32 @@
+services:
+  sim:
+    image: vistek528/elkapod_sim:latest
+
+    command: bash  
+    stdin_open: true   
+    tty: true
+    network_mode: host
+    ipc: host
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+
+    environment:
+      ROS_DOMAIN_ID: 87
+      DISPLAY: ${DISPLAY}
+      QT_X11_NO_MITSHM: "1"
+      QT_QPA_PLATFORM: xcb
+      QT_OPENGL: desktop
+      __GLX_VENDOR_LIBRARY_NAME: nvidia
+      NVIDIA_DRIVER_CAPABILITIES: graphics,utility,compute
+      GZ_SIM_RENDER_ENGINE: ogre2
+
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${PWD}:/elkapod_sim_ws:rw
+      - /dev/shm:/dev/shm:rw
+
+    shm_size: "512m"  

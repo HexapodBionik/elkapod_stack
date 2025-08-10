@@ -14,6 +14,9 @@ You can choose one of two possible deploy modes for Elkapod robot:
 1. Launch Elkapod in Gazebo Harmonic simulation environment
 2. Launch Elkapod in real world 
 
+### Launching system in a Docker container
+If you want to run Elkapod system in a Docker container then follow the steps described in the [instruction](.docker/README.md).
+
 ### Launching Elkapod in Gazebo Simulation
 For the first scenario, you should download all groups of packages into one `elkapod_simulation_ws`
 
@@ -47,5 +50,5 @@ Depending on platform you should use `elkapod_deploy_local.repos` for `local` an
 > 
 > Then run the command like this:
 > 
-> ./ssh_repos_url.sh elkapod_all.repos | vcs import src/
+> ./src/ssh_repos_url.sh src/elkapod_all.repos | vcs import src/
 >
