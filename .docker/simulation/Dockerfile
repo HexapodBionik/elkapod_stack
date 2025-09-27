@@ -26,33 +26,22 @@ RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyri
     && apt-get install gz-harmonic -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /ws_ros2_control/src/ \
-    && cd /ws_ros2_control/ 
+WORKDIR /
 
-WORKDIR /ws_ros2_control/src/
-
-ADD https://raw.githubusercontent.com/ros-controls/ros2_control_ci/master/ros_controls.$ROS_DISTRO.repos ros_controls.$ROS_DISTRO.repos
-
-WORKDIR /ws_ros2_control/
-
-RUN vcs import src < src/ros_controls.$ROS_DISTRO.repos \
-    && rosdep update --rosdistro=$ROS_DISTRO \
-    && apt-get update \
-    && rosdep install --from-paths src --ignore-src -r -y \
-    && rm -rf /var/lib/apt/lists/* 
-
-RUN source /opt/ros/$ROS_DISTRO/setup.bash && colcon build --symlink-install \
-    && source install/setup.bash
 
 RUN apt-get update && apt-get install -y \
         libboost-all-dev \
         libtbb-dev \
-        python3-pip \
-        python3-dev \
-        python3-venv \
+        # python3-pip \
+        # python3-dev \
+        # python3-venv \
         ros-$ROS_DISTRO-rqt-graph \
         ros-$ROS_DISTRO-perception-pcl \
         ros-$ROS_DISTRO-pcl-msgs \
+        ros-$ROS_DISTRO-navigation2 \
+        ros-$ROS_DISTRO-nav2-bringup \
+        ros-$ROS_DISTRO-nav2-minimal-tb* \
+        ros-$ROS_DISTRO-robot-localization \
         ros-$ROS_DISTRO-vision-opencv \
         gdb \
         nano \
@@ -65,48 +54,22 @@ RUN git clone --branch 4.1.1 https://github.com/borglab/gtsam.git /gtsam \
     && make install \
     && rm -rf /gtsam
 
-#     # Install some extra packages not specified within rosdep
-# RUN apt-get update \
-#     && apt-get install -y \
-#         ros-$ROS_DISTRO-rqt-graph \
-#         ros-$ROS_DISTRO-perception-pcl \
-#         ros-$ROS_DISTRO-pcl-msgs \
-#         ros-$ROS_DISTRO-vision-opencv \
-#         gdb \
-#         nano \
-#     && rm -rf /var/lib/apt/lists/*
+WORKDIR /extra/src/
 
-# For Debian/Ubuntu based images
-# RUN apt-get update && apt-get install -y python3-pip python3-dev build-essential \
-#     && python3 -m pip install --upgrade pip setuptools wheel \
-#     && python3 -m pip install "numpy<1.26" cython
+ADD https://raw.githubusercontent.com/ros-controls/ros2_control_ci/master/ros_controls.$ROS_DISTRO.repos ros_controls.$ROS_DISTRO.repos
 
-# TODO move it around? 
-RUN mkdir -p /ws_LIO_SAM/ \
-    && cd /ws_LIO_SAM/
+RUN vcs import . < ros_controls.$ROS_DISTRO.repos \
+    && git clone https://github.com/dbarania/LIO-SAM.git --branch ros2 LIO_SAM \
+    && rosdep update --rosdistro=$ROS_DISTRO \
+    && apt-get update \
+    && cd .. \
+    && rosdep install --from-paths src --ignore-src -r -y \
+    && rm -rf /var/lib/apt/lists/* 
 
-# RUN python3 -m venv /opt/venv \
-#     && /opt/venv/bin/pip install --upgrade pip setuptools wheel \
-#     && /opt/venv/bin/pip install "numpy<1.26" cython \
-#     && . /opt/venv/bin/activate
+WORKDIR /extra/
 
-WORKDIR /ws_LIO_SAM/
-
-RUN git clone https://github.com/TixiaoShan/LIO-SAM.git --branch ros2 . 
-    # && cd .. \
-    # && colcon build \
-    # && source install/setup.bash \
-
-
-    # Nav2 and robot_localization install
-RUN apt-get update && apt-get install -y \
-    ros-$ROS_DISTRO-navigation2 \
-    ros-$ROS_DISTRO-nav2-bringup \
-    ros-$ROS_DISTRO-nav2-minimal-tb* \
-    ros-$ROS_DISTRO-robot-localization \
-    && rm -rf /var/lib/apt/lists/*
-
-
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && colcon build --symlink-install \
+    && source install/setup.bash
 
 WORKDIR /elkapod_sim_ws/
 
