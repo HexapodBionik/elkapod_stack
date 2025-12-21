@@ -1,32 +1,37 @@
 services:
   sim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: jazzy
+        ELKAPOD_CORE_BRANCH: main
+        ROS2_CONTROL_TAG: 5.5.0
     image: vistek528/elkapod_sim:latest
-
-    command: bash  
-    stdin_open: true   
+    command: bash
+    stdin_open: true
     tty: true
     network_mode: host
     ipc: host
-
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: ["gpu"]
-
+    runtime: nvidia
     environment:
       ROS_DOMAIN_ID: 87
       DISPLAY: ${DISPLAY}
-      QT_X11_NO_MITSHM: "1"
-      QT_QPA_PLATFORM: xcb
-      QT_OPENGL: desktop
+      # Force NVIDIA GPU usage
+      __NV_PRIME_RENDER_OFFLOAD: 1
+      __VK_LAYER_NV_optimus: NVIDIA_only
       __GLX_VENDOR_LIBRARY_NAME: nvidia
-      NVIDIA_DRIVER_CAPABILITIES: graphics,utility,compute
+      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_VISIBLE_DEVICES: all
+      # Gazebo specific settings
       GZ_SIM_RENDER_ENGINE: ogre2
-
+      # Prevent AMDGPU errors
+      DISABLE_AMDGPU: 1
+      # Use EGL instead of GLX if needed
+      USE_EGL: 1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${PWD}:/elkapod_sim_ws:rw
       - /dev/shm:/dev/shm:rw
-
-    shm_size: "512m"  
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+    shm_size: "1g"
