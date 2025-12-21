@@ -6,7 +6,7 @@
 This repository contains groups of packages such as:
 - [elkapod core](https://github.com/HexapodBionik/elkapod_core) - robot description, ros2 controllers, gait generation and communication with hardware layer
 - [elkapod simulation](https://github.com/HexapodBionik/elkapod_simulation) - packages related with robot simulation in Gazebo Sim
-- [elkapod nav2](https://github.com/HexapodBionik/elkapod_nav2) - navigation stack
+- [elkapod navigation](https://github.com/HexapodBionik/elkapod_navigation) - navigation stack
 - [elkapod teleop](https://github.com/HexapodBionik/elkapod_teleop) - teleoperation and remote control packages
 
 ## Installation
