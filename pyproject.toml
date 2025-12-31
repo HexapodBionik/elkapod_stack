@@ -2,3 +2,4 @@
 lint.extend-select = ["C4", "SIM", "TCH"]
 lint.ignore = []
 show-fixes = true
+line-length = 120

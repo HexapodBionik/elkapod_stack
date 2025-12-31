@@ -7,7 +7,7 @@ services:
         ROS_DISTRO: jazzy
         ELKAPOD_CORE_BRANCH: main
         ROS2_CONTROL_TAG: 5.5.0
-    image: vistek528/elkapod_sim:latest
+    image: ghcr.io/hexapodbionik/elkapod_sim:latest
     command: bash
     stdin_open: true
     tty: true
@@ -15,6 +15,7 @@ services:
     ipc: host
     runtime: nvidia
     environment:
+      TERM: xterm-256color
       ROS_DOMAIN_ID: 87
       DISPLAY: ${DISPLAY}
       # Force NVIDIA GPU usage
@@ -29,9 +30,25 @@ services:
       DISABLE_AMDGPU: 1
       # Use EGL instead of GLX if needed
       USE_EGL: 1
+      SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
+      # Gamepad mapping
+      SDL_GAMECONTROLLERCONFIG: |
+        050000005e040000130b000023050000,Xbox Series X Controller,platform:Linux,crc:dc18,
+        a:b0,b:b1,x:b3,y:b4,back:b10,guide:b12,start:b11,leftstick:b13,rightstick:b14,
+        leftshoulder:b6,rightshoulder:b7,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,
+        misc1:b15,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:a5,righttrigger:a4,
+      # QT app theme
+      QT_QPA_PLATFORMTHEME: gtk3
+      GTK_THEME: Adwaita:dark
+    devices:
+      - "/dev/input/:/dev/input/"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${PWD}:/elkapod_sim_ws:rw
       - /dev/shm:/dev/shm:rw
       - ${HOME}/.Xauthority:/root/.Xauthority:rw
+      - ${SSH_AUTH_SOCK}:/run/host-services/ssh-auth.sock
+      - ${PWD}/src/.mixins/:/root/.colcon/mixin/dev:rw
     shm_size: "1g"
+    group_add:
+      - input
