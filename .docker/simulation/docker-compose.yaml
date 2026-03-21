@@ -26,6 +26,8 @@ services:
       NVIDIA_VISIBLE_DEVICES: all
       # Gazebo specific settings
       GZ_SIM_RENDER_ENGINE: ogre2
+      GZ_PARTITION: elkapod_sim
+      GZ_IP: 127.0.0.1
       # Prevent AMDGPU errors
       DISABLE_AMDGPU: 1
       # Use EGL instead of GLX if needed

@@ -1,5 +1,6 @@
 .idea/
 .vscode/
+.github/agents/*
 
 # Imported repos
 elkapod_*/
