@@ -1,0 +1,4 @@
+build:
+  dev:
+    cmake-args: ["-DCMAKE_BUILD_TYPE=Release"]
+    symlink-install: true

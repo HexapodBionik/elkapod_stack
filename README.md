@@ -6,13 +6,14 @@
 This repository contains groups of packages such as:
 - [elkapod core](https://github.com/HexapodBionik/elkapod_core) - robot description, ros2 controllers, gait generation and communication with hardware layer
 - [elkapod simulation](https://github.com/HexapodBionik/elkapod_simulation) - packages related with robot simulation in Gazebo Sim
-- [elkapod nav2](https://github.com/HexapodBionik/elkapod_nav2) - navigation stack
+- [elkapod navigation](https://github.com/HexapodBionik/elkapod_navigation) - navigation stack
 - [elkapod teleop](https://github.com/HexapodBionik/elkapod_teleop) - teleoperation and remote control packages
+- [elkapod autonomy](https://github.com/HexapodBionik/elkapod_autonomy) - autonomous work of the robot & behaviours
 
 ## Installation
 You can choose one of two possible deploy modes for Elkapod robot:
 1. Launch Elkapod in Gazebo Harmonic simulation environment
-2. Launch Elkapod in real world 
+2. Launch Elkapod in real world
 
 ### Launching system in a Docker container
 If you want to run Elkapod system in a Docker container then follow the steps described in the [instruction](.docker/README.md).
@@ -37,18 +38,18 @@ colcon build --symlink-install && source install/setup.bash
 
 ### Launch Elkapod in real world
 In this scenario, packages are divided into two groups:
-- `local` - those packages are uploaded into Raspberry Pi 5 working onboard Elkapod 
+- `local` - those packages are uploaded into Raspberry Pi 5 working onboard Elkapod
 - `remote` - used on remote PC computer
 
 Depending on platform you should use `elkapod_deploy_local.repos` for `local` and `elkapod_deploy_remote.repos` for `remote` and follow points from previous chapter.
 
-> [!IMPORTANT] 
+> [!IMPORTANT]
 >
 > If you want to use ssh-based repository cloning then use the `ssh_repos_url.sh` file to change URLs in `.repos` files so that all of them start with `git@github.com:HexapodBionik` prefix, suitable for ssh clone.
-> 
-> First of all you should add permissions to execute the file using `chmod u+x ssh_repos_url.sh`. 
-> 
+>
+> First of all you should add permissions to execute the file using `chmod u+x ssh_repos_url.sh`.
+>
 > Then run the command like this:
-> 
+>
 > ./src/ssh_repos_url.sh src/elkapod_all.repos | vcs import src/
 >

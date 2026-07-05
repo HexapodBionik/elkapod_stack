@@ -12,14 +12,19 @@ repositories:
   elkapod_simulation:
     type: git
     url: https://github.com/HexapodBionik/elkapod_simulation.git
-    version: gazebo_sim
+    version: main
 
   elkapod_teleop:
     type: git
     url: https://github.com/HexapodBionik/elkapod_teleop.git
     version: main
 
-  elkapod_nav2:
+  elkapod_navigation:
     type: git
-    url: https://github.com/HexapodBionik/elkapod_nav2.git
+    url: https://github.com/HexapodBionik/elkapod_navigation.git
+    version: main
+
+  elkapod_autonomy:
+    type: git
+    url: https://github.com/HexapodBionik/elkapod_autonomy.git
     version: main
